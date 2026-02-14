@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-black antialiased;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-lg border border-neutral-200 shadow-sm;
+  }
+}
