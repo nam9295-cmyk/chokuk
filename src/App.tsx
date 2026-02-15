@@ -57,19 +57,19 @@ function App() {
         {/* Subtle Gradient Overlay for Depth */}
         <div className="absolute inset-0 z-0 bg-gradient-to-t from-white via-transparent to-white/50" />
 
-        <FadeIn delay={0.2} className="relative z-10 space-y-8 max-w-5xl mx-auto">
+        <FadeIn delay={0.2} className="relative z-10 space-y-8 w-full max-w-5xl mx-auto px-4">
           <motion.h1
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight text-black drop-shadow-sm"
+            className="text-[13vw] sm:text-8xl md:text-9xl font-black tracking-tight text-black drop-shadow-sm break-all w-full text-center leading-none"
           >
             CHOKUK<span className="text-neutral-400">.CO.KR</span>
           </motion.h1>
 
           <div className="w-24 h-1 bg-black mx-auto" />
 
-          <p className="text-xl md:text-3xl text-neutral-600 font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-3xl text-neutral-600 font-light tracking-wide max-w-2xl mx-auto leading-relaxed px-6 break-keep text-center">
             대한민국을 움직이는 키워드,<br className="md:hidden" /> 그 주인이 되십시오.
           </p>
 
@@ -80,7 +80,7 @@ function App() {
           >
             <a
               href="#offer"
-              className="inline-block px-12 py-5 text-lg font-bold tracking-widest text-white bg-black hover:bg-neutral-800 transition-all duration-300 shadow-lg hover:shadow-xl rounded-none uppercase"
+              className="inline-block px-8 py-4 md:px-12 md:py-5 text-base md:text-lg font-bold tracking-widest text-white bg-black hover:bg-neutral-800 transition-all duration-300 shadow-lg hover:shadow-xl rounded-none uppercase"
             >
               Make an Offer
             </a>
@@ -89,10 +89,10 @@ function App() {
       </section>
 
       {/* Value Proposition Section */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-neutral-100 border-t border-neutral-200">
+      <section className="py-20 md:py-32 px-6 md:px-12 lg:px-24 bg-neutral-100 border-t border-neutral-200">
         <div className="max-w-7xl mx-auto">
           <FadeIn>
-            <h2 className="text-4xl md:text-5xl font-bold mb-20 text-center tracking-tight text-neutral-900">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 md:mb-20 text-center tracking-tight text-neutral-900">
               Why This Domain?
             </h2>
           </FadeIn>
@@ -141,12 +141,12 @@ function App() {
       </section>
 
       {/* Offer Form Section */}
-      <section id="offer" className="py-32 px-6 flex items-center justify-center relative bg-neutral-50">
+      <section id="offer" className="py-20 md:py-32 px-6 flex items-center justify-center relative bg-neutral-50">
         <div className="w-full max-w-3xl relative z-10">
           <FadeIn>
-            <div className="bg-white p-10 md:p-16 shadow-xl border border-neutral-100">
+            <div className="bg-white p-6 md:p-16 shadow-xl border border-neutral-100">
               <div className="mb-12 text-center">
-                <h2 className="text-4xl font-bold mb-4 text-black">Inquiry</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">Inquiry</h2>
                 <p className="text-neutral-500 text-lg">Send your official offer for this premium domain.</p>
               </div>
 
