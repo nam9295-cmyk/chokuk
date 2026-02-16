@@ -29,12 +29,35 @@ function App() {
     offer: '',
     message: ''
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('https://formspree.io/f/xqedbkbz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          contact: formState.contact,
+          offer_price: formState.offer,
+          message: formState.message
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormState({ name: '', contact: '', offer: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
   };
 
   return (
@@ -145,75 +168,101 @@ function App() {
                 <p className="text-neutral-500 text-lg">이 프리미엄 도메인에 대한 가치를 제안해 주세요.</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">성함 / 소속</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300"
-                      placeholder="홍길동 / (주)한국기업"
-                      value={formState.name}
-                      onChange={e => setFormState({ ...formState, name: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">연락처</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300"
-                      placeholder="010-1234-5678"
-                      value={formState.contact}
-                      onChange={e => setFormState({ ...formState, contact: e.target.value })}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">제안 가격 (KRW)</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-2xl font-bold focus:outline-none focus:border-black transition-colors placeholder-neutral-300 font-mono"
-                    placeholder="₩ 100,000,000"
-                    value={formState.offer}
-                    onChange={e => setFormState({ ...formState, offer: e.target.value })}
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">메시지</label>
-                  <textarea
-                    rows={4}
-                    className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors resize-none placeholder-neutral-300"
-                    placeholder="추가적인 세부 사항이나 문의 내용을 남겨주세요."
-                    value={formState.message}
-                    onChange={e => setFormState({ ...formState, message: e.target.value })}
-                  />
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  disabled={isSubmitted}
-                  className={cn(
-                    "w-full py-6 font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 text-lg border-2",
-                    isSubmitted ? "bg-white text-green-600 border-green-600" : "bg-black text-white border-black hover:bg-white hover:text-black"
-                  )}
+              {status === 'success' ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-neutral-50 border-2 border-green-500 p-8 text-center rounded-lg"
                 >
-                  {isSubmitted ? (
-                    <>
-                      <CheckCircle2 className="w-6 h-6" /> 전송 완료
-                    </>
-                  ) : (
-                    <>
-                      공식 제안서 제출 <Send className="w-5 h-5" />
-                    </>
-                  )}
-                </motion.button>
-              </form>
+                  <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-neutral-900 mb-2">제안이 성공적으로 전달되었습니다.</h3>
+                  <p className="text-neutral-600">검토 후 조속히 연락드리겠습니다.</p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">성함 / 소속</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300 disabled:opacity-50"
+                        placeholder="홍길동 / (주)한국기업"
+                        value={formState.name}
+                        onChange={e => setFormState({ ...formState, name: e.target.value })}
+                        disabled={status === 'submitting'}
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">연락처</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300 disabled:opacity-50"
+                        placeholder="010-1234-5678"
+                        value={formState.contact}
+                        onChange={e => setFormState({ ...formState, contact: e.target.value })}
+                        disabled={status === 'submitting'}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">제안 가격 (KRW)</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-2xl font-bold focus:outline-none focus:border-black transition-colors placeholder-neutral-300 font-mono disabled:opacity-50"
+                      placeholder="₩ 100,000,000"
+                      value={formState.offer}
+                      onChange={e => setFormState({ ...formState, offer: e.target.value })}
+                      disabled={status === 'submitting'}
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">메시지</label>
+                    <textarea
+                      rows={4}
+                      className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors resize-none placeholder-neutral-300 disabled:opacity-50"
+                      placeholder="추가적인 세부 사항이나 문의 내용을 남겨주세요."
+                      value={formState.message}
+                      onChange={e => setFormState({ ...formState, message: e.target.value })}
+                      disabled={status === 'submitting'}
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <motion.button
+                      whileHover={{ scale: status === 'submitting' ? 1 : 1.01 }}
+                      whileTap={{ scale: status === 'submitting' ? 1 : 0.99 }}
+                      disabled={status === 'submitting'}
+                      className={cn(
+                        "w-full py-6 font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 text-lg border-2",
+                        status === 'submitting'
+                          ? "bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed"
+                          : "bg-black text-white border-black hover:bg-white hover:text-black"
+                      )}
+                    >
+                      {status === 'submitting' ? (
+                        <>
+                          <span className="animate-pulse">Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          공식 제안서 제출 <Send className="w-5 h-5" />
+                        </>
+                      )}
+                    </motion.button>
+
+                    {status === 'error' && (
+                      <p className="text-red-500 text-center font-bold text-sm">
+                        전송에 실패했습니다. 다시 시도해주세요.
+                      </p>
+                    )}
+                  </div>
+                </form>
+              )}
             </div>
           </FadeIn>
         </div>
