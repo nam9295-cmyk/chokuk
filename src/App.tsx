@@ -4,6 +4,7 @@ import { TrendingUp, Users, Award, Send, CheckCircle2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import heroBg from './assets/hero-bg-white.png';
+import LiveInterestTracker from './components/LiveInterestTracker';
 
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
@@ -82,7 +83,7 @@ function App() {
               href="#offer"
               className="inline-block px-8 py-4 md:px-12 md:py-5 text-base md:text-lg font-bold tracking-widest text-white bg-black hover:bg-neutral-800 transition-all duration-300 shadow-lg hover:shadow-xl rounded-none uppercase"
             >
-              Make an Offer
+              가치 제안하기
             </a>
           </motion.div>
         </FadeIn>
@@ -93,7 +94,7 @@ function App() {
         <div className="max-w-7xl mx-auto">
           <FadeIn>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 md:mb-20 text-center tracking-tight text-neutral-900">
-              Why This Domain?
+              왜 이 도메인인가?
             </h2>
           </FadeIn>
 
@@ -101,21 +102,18 @@ function App() {
             {[
               {
                 icon: <TrendingUp className="w-12 h-12 text-black" />,
-                title: "Overwhelming Traffic",
-                titleKo: "압도적인 검색량과 트래픽",
-                desc: "Ensure immediate visibility with a keyword that dominates search engines."
+                title: "압도적인 트래픽",
+                desc: "검색 엔진을 장악하는 키워드로 즉각적인 노출을 보장합니다."
               },
               {
                 icon: <Award className="w-12 h-12 text-black" />,
-                title: "Powerful Branding",
-                titleKo: "강력한 퍼스널 브랜딩",
-                desc: "Establish instant authority and recognition in the political or media landscape."
+                title: "강력한 브랜딩",
+                desc: "정치 및 미디어 분야에서 즉각적인 권위와 인지도를 확립하십시오."
               },
               {
                 icon: <Users className="w-12 h-12 text-black" />,
-                title: "Massive Impact",
-                titleKo: "전 국민적 파급력",
-                desc: "Reach audiences across the spectrum with a name that everyone knows."
+                title: "전 국민적 파급력",
+                desc: "모두가 아는 이름으로 전 국민에게 도달하십시오."
               }
             ].map((item, index) => (
               <FadeIn key={index} delay={index * 0.2}>
@@ -124,13 +122,10 @@ function App() {
                   <div className="mb-6">
                     {item.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-black mb-2">
+                  <h3 className="text-2xl font-bold text-black mb-4">
                     {item.title}
                   </h3>
-                  <p className="text-sm font-semibold text-neutral-500 uppercase tracking-widest mb-4">
-                    {item.titleKo}
-                  </p>
-                  <p className="text-neutral-600 leading-relaxed text-lg">
+                  <p className="text-neutral-600 leading-relaxed text-lg break-keep">
                     {item.desc}
                   </p>
                 </div>
@@ -146,30 +141,30 @@ function App() {
           <FadeIn>
             <div className="bg-white p-6 md:p-16 shadow-xl border border-neutral-100">
               <div className="mb-12 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">Inquiry</h2>
-                <p className="text-neutral-500 text-lg">Send your official offer for this premium domain.</p>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">구매 문의</h2>
+                <p className="text-neutral-500 text-lg">이 프리미엄 도메인에 대한 가치를 제안해 주세요.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Name / Org</label>
+                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">성함 / 소속</label>
                     <input
                       type="text"
                       required
                       className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300"
-                      placeholder="Name or Organization"
+                      placeholder="홍길동 / (주)한국기업"
                       value={formState.name}
                       onChange={e => setFormState({ ...formState, name: e.target.value })}
                     />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Contact</label>
+                    <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">연락처</label>
                     <input
                       type="text"
                       required
                       className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors placeholder-neutral-300"
-                      placeholder="Phone or Email"
+                      placeholder="010-1234-5678"
                       value={formState.contact}
                       onChange={e => setFormState({ ...formState, contact: e.target.value })}
                     />
@@ -177,7 +172,7 @@ function App() {
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Offer Price (KRW)</label>
+                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">제안 가격 (KRW)</label>
                   <input
                     type="text"
                     required
@@ -189,11 +184,11 @@ function App() {
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">Message</label>
+                  <label className="text-xs font-bold text-neutral-400 uppercase tracking-widest">메시지</label>
                   <textarea
                     rows={4}
                     className="w-full bg-transparent border-b-2 border-neutral-200 p-3 text-black text-lg focus:outline-none focus:border-black transition-colors resize-none placeholder-neutral-300"
-                    placeholder="Provide additional details or inquiries."
+                    placeholder="추가적인 세부 사항이나 문의 내용을 남겨주세요."
                     value={formState.message}
                     onChange={e => setFormState({ ...formState, message: e.target.value })}
                   />
@@ -210,11 +205,11 @@ function App() {
                 >
                   {isSubmitted ? (
                     <>
-                      <CheckCircle2 className="w-6 h-6" /> Sent Successfully
+                      <CheckCircle2 className="w-6 h-6" /> 전송 완료
                     </>
                   ) : (
                     <>
-                      Submit Official Offer <Send className="w-5 h-5" />
+                      공식 제안서 제출 <Send className="w-5 h-5" />
                     </>
                   )}
                 </motion.button>
@@ -231,6 +226,9 @@ function App() {
           contact@chokuk.co.kr
         </a>
       </footer>
+
+      {/* Live Interest Tracker */}
+      <LiveInterestTracker />
     </div>
   );
 }
