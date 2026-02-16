@@ -6,6 +6,8 @@ import { twMerge } from 'tailwind-merge';
 import heroBg from './assets/hero-bg-white.png';
 import LiveInterestTracker from './components/LiveInterestTracker';
 
+import NewsTicker from './components/NewsTicker';
+
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
@@ -62,6 +64,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white overflow-x-hidden font-sans">
+      <NewsTicker />
 
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center p-6 text-center overflow-hidden">
