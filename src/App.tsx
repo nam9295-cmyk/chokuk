@@ -270,10 +270,7 @@ function App() {
 
       {/* Footer */}
       <footer className="py-12 border-t border-neutral-200 text-center text-neutral-400 bg-white">
-        <p className="text-sm mb-4">© 2026 CHOKUK.CO.KR. All rights reserved.</p>
-        <a href="mailto:contact@chokuk.co.kr" className="hover:text-black transition-colors font-medium">
-          contact@chokuk.co.kr
-        </a>
+        <p className="text-sm">© 2026 CHOKUK.CO.KR. All rights reserved.</p>
       </footer>
 
       {/* Live Interest Tracker */}
